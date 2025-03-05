@@ -143,18 +143,7 @@ func (p *GPvz) CheckPaused() {
 	}
 
 	// 比较新的截图和上次的截图，如果相同则说明游戏暂停
-	if p.Screen.Rows() == p.PrevScreen.Rows() && p.Screen.Cols() == p.PrevScreen.Cols() {
-		//gocv.IMWrite("diff_1.png", p.Screen)
-		//gocv.IMWrite("diff_2.png", p.PrevScreen)
-		//diff := gocv.NewMat()
-		//gocv.AbsDiff(p.Screen, p.PrevScreen, &diff)
-		//
-		//if gocv.CountNonZero(diff) == 0 {
-		//	p.Paused = true
-		//	p.Log.Info("game paused")
-		//	return
-		//}
-	}
+	//...
 
 	// 如果游戏暂停，则恢复游戏
 	if p.Paused {
@@ -173,7 +162,6 @@ func (p *GPvz) CheckGaming() {
 	// 获取当前屏幕截图的右上角区域
 	rect := image.Rect(p.Screen.Cols()-200, 100, p.Screen.Cols(), 0)
 	topRight := p.Screen.Region(rect)
-	//gcv.IMWrite("topRight.png", topRight)
 
 	contour := NewContour(p.MenuHsvLower, p.MenuHsvUpper, 3, 100)
 	result := contour.FindRectangles(topRight)
@@ -200,9 +188,7 @@ func (p *GPvz) CollectSun() {
 	}
 
 	for _, rect := range result {
-		fmt.Println(rect.Min.X, rect.Min.Y) // 获取矩形左上角坐标
-		fmt.Println(rect.Max.X, rect.Max.Y) // 获取矩形右下角坐标
-
+		// 移动鼠标点击阳光区域
 		robotgo.MoveSmooth(rect.Min.X, rect.Min.Y, 0.5, 0.5)
 		robotgo.Click("click")
 	}
